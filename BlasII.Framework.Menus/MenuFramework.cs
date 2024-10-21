@@ -183,4 +183,17 @@ public class MenuFramework : BlasIIMod
 
         return settingsMenu.AddComponent<MenuComponent>();
     }
+
+#if DEBUG
+    /// <summary>
+    /// Register test menus
+    /// </summary>
+    protected override void OnRegisterServices(ModServiceProvider provider)
+    {
+        provider.RegisterNewGameMenu(new TestMenu("New game 1st menu", 10, true));
+        provider.RegisterNewGameMenu(new TestMenu("New game 2nd menu", 21, true));
+
+        provider.RegisterLoadGameMenu(new TestMenu("Load game menu", 50, false));
+    }
+#endif
 }
