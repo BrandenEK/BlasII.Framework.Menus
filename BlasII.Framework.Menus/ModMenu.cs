@@ -1,4 +1,5 @@
 ﻿using BlasII.ModdingAPI;
+using BlasII.ModdingAPI.Helpers;
 using BlasII.ModdingAPI.Input;
 using System;
 using UnityEngine;
@@ -65,7 +66,8 @@ public abstract class ModMenu
     /// </summary>
     public virtual void OnOptionsChanged()
     {
-        Main.MenuFramework.SoundPlayer.Play(SoundPlayer.SfxType.ChangeSelection);
+        AudioHelper.PlayEffectUI(AudioHelper.SfxUI.ChangeSelection);
+        //Main.MenuFramework.SoundPlayer.Play(SoundPlayer.SfxType.ChangeSelection);
     }
 
     /// <summary>

@@ -61,7 +61,8 @@ internal class MenuCollection(IEnumerable<ModMenu> menus, Action onFinish, Actio
     /// </summary>
     public void ShowNextMenu()
     {
-        Main.MenuFramework.SoundPlayer.Play(SoundPlayer.SfxType.EquipItem);
+        AudioHelper.PlayEffectUI(AudioHelper.SfxUI.OpenMenu);
+        //Main.MenuFramework.SoundPlayer.Play(SoundPlayer.SfxType.EquipItem);
 
         // If there is another menu, move to it
         if (_currentMenu < _menus.Count - 1)
@@ -82,7 +83,8 @@ internal class MenuCollection(IEnumerable<ModMenu> menus, Action onFinish, Actio
     /// </summary>
     public void ShowPreviousMenu()
     {
-        Main.MenuFramework.SoundPlayer.Play(SoundPlayer.SfxType.UnequipItem);
+        AudioHelper.PlayEffectUI(AudioHelper.SfxUI.CloseMenu);
+        //Main.MenuFramework.SoundPlayer.Play(SoundPlayer.SfxType.UnequipItem);
         HideMenu(_currentMenu);
 
         // If there is another menu, move to it

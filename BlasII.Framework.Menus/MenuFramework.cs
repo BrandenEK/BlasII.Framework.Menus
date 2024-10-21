@@ -104,7 +104,7 @@ public class MenuFramework : BlasIIMod
             return true;
 
         if (isContinue)
-            Core.Persistence.LoadGameWithOutRespawn(slot); // Load game data!!
+            CoreCache.SaveData.LoadGame(slot);
 
         StartMenu();
         return false;
