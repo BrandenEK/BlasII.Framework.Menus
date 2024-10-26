@@ -33,12 +33,16 @@ public class MenuFramework : BlasIIMod
     private MenuCollection _newGameMenus;
     private MenuCollection _loadGameMenus;
     private MenuCollection CurrentMenuCollection => _isContinue ? _loadGameMenus : _newGameMenus;
-    private bool IsMenuActive => CurrentMenuCollection.IsActive;
 
     // Temporary settings
     private bool _enterNextFrame = false;
     private bool _isContinue = false;
     private int _currentSlot = 0;
+
+    /// <summary>
+    /// Is a menu currently being shown
+    /// </summary>
+    public bool IsMenuActive => CurrentMenuCollection.IsActive;
 
     /// <summary>
     /// Load and setup ui
