@@ -36,6 +36,7 @@ public class MenuFramework : BlasIIMod
 
     // Temporary settings
     private bool _enterNextFrame = false;
+    private bool _cancelNextFrame = false;
     private bool _isContinue = false;
     private int _currentSlot = 0;
 
@@ -76,6 +77,11 @@ public class MenuFramework : BlasIIMod
             _enterNextFrame = false;
             CurrentMenuCollection.ShowNextMenu();
         }
+        if (_cancelNextFrame)
+        {
+            _cancelNextFrame = false;
+            CurrentMenuCollection.ShowPreviousMenu();
+        }
 
         CurrentMenuCollection.CurrentMenu.OnUpdate();
     }
@@ -93,7 +99,7 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     public void ShowPreviousMenu()
     {
-        CurrentMenuCollection.ShowPreviousMenu();
+        _cancelNextFrame = true;
     }
 
     /// <summary>
@@ -198,6 +204,16 @@ public class MenuFramework : BlasIIMod
         provider.RegisterNewGameMenu(new TestMenu("New game 2nd menu", 21, true));
 
         provider.RegisterLoadGameMenu(new TestMenu("Load game menu", 50, false));
+    }
+
+    protected override void OnNewGame()
+    {
+        ModLog.Warn("Calling new game!");
+    }
+
+    protected override void OnLoadGame()
+    {
+        ModLog.Warn("Calling load game!");
     }
 #endif
 }
