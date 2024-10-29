@@ -24,6 +24,11 @@ internal class TestMenu(string title, int priority, bool hasClickable) : ModMenu
         ModLog.Info("An option was changed!");
     }
 
+    public override void OnFinish()
+    {
+        ModLog.Warn("Finished with menu, processing settings!");
+    }
+
     protected internal override void CreateUI(Transform ui)
     {
         if (!hasClickable)

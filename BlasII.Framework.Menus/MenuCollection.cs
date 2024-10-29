@@ -75,6 +75,9 @@ internal class MenuCollection(IEnumerable<ModMenu> menus, Action onFinish, Actio
         _menus[_currentMenu].OnHide();
 
         // Otherwise, finish the menu
+        _currentMenu = -1;
+        foreach (var menu in _menus)
+            menu.OnFinish();
         onFinish();
     }
 
@@ -102,23 +105,13 @@ internal class MenuCollection(IEnumerable<ModMenu> menus, Action onFinish, Actio
     }
 
     /// <summary>
-    /// Forcefully hides the UI for all menus
-    /// </summary>
-    public void ForceClose()
-    {
-        _currentMenu = -1;
-        foreach (var menu in _menus)
-        {
-            menu.UI?.gameObject.SetActive(false);
-        }
-    }
-
-    /// <summary>
     /// Only call the OnFinish method once NewGame or LoadGame has been called
     /// </summary>
     public void DelayedFinish()
     {
-        foreach (var menu in _menus)
-            menu.OnFinish();
+        // Might not be needed if the OnFinish needs to be before newgame is called
+
+        //foreach (var menu in _menus)
+        //    menu.OnFinish();
     }
 }

@@ -15,7 +15,7 @@ public class MenuFramework : BlasIIMod
     internal MenuFramework() : base(ModInfo.MOD_ID, ModInfo.MOD_NAME, ModInfo.MOD_AUTHOR, ModInfo.MOD_VERSION)
     {
         _mainMenuCache = new ObjectCache<MainMenuWindowLogic>(Object.FindObjectOfType<MainMenuWindowLogic>);
-        _slotsMenuCache = new ObjectCache<GameObject>(() => _mainMenuCache.Value.slotsMenuView.transform.parent.gameObject);
+        _slotsMenuCache = new ObjectCache(() => _mainMenuCache.Value.slotsMenuView.transform.parent.gameObject);
     }
 
     internal static bool AllowGameStart { get; private set; }
@@ -27,7 +27,7 @@ public class MenuFramework : BlasIIMod
 
     // Menu objects
     private readonly ObjectCache<MainMenuWindowLogic> _mainMenuCache;
-    private readonly ObjectCache<GameObject> _slotsMenuCache;
+    private readonly ObjectCache _slotsMenuCache;
 
     // Menu collections
     private MenuCollection _newGameMenus;
@@ -69,9 +69,6 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     protected override void OnUpdate()
     {
-        if (!IsMenuActive)
-            return;
-
         if (_enterNextFrame)
         {
             _enterNextFrame = false;
@@ -81,9 +78,11 @@ public class MenuFramework : BlasIIMod
         {
             _cancelNextFrame = false;
             CurrentMenuCollection.ShowPreviousMenu();
+            return;
         }
 
-        CurrentMenuCollection.CurrentMenu.OnUpdate();
+        if (IsMenuActive)
+            CurrentMenuCollection.CurrentMenu.OnUpdate();
     }
 
     /// <summary>
@@ -180,7 +179,7 @@ public class MenuFramework : BlasIIMod
         LocalizationHandler.AddPixelTextLocalizer(
             newBtn.GetComponentInChildren<UIPixelTextWithShadow>(), isLast ? (_isContinue ? "btncnt" : "btnbgn") : "btnnxt");
         LocalizationHandler.AddPixelTextLocalizer(
-            cancelBtn.GetComponentInChildren<UIPixelTextWithShadow>(), isFirst ? "btncnc" : "btnpvs");
+            cancelBtn.GetComponentInChildren<UIPixelTextWithShadow>(), isFirst ? "btncnc" : "btnprv");
 
         // Create holder for options and all settings
         UIModder.Create(new RectCreationOptions()
@@ -209,11 +208,13 @@ public class MenuFramework : BlasIIMod
     protected override void OnNewGame()
     {
         ModLog.Warn("Calling new game!");
+        _newGameMenus.DelayedFinish();
     }
 
     protected override void OnLoadGame()
     {
         ModLog.Warn("Calling load game!");
+        _loadGameMenus.DelayedFinish();
     }
 #endif
 }
