@@ -48,20 +48,20 @@ internal class TestMenu(string title, int priority, bool hasClickable) : ModMenu
         var toggle1 = defaultToggle.CreateOption("test1", ui, new Vector2(-300, 0), "Test toggle");
         var toggle2 = specialToggle.CreateOption("test11", ui, new Vector2(-300, 200), "Test toggle");
 
-        //// Arrows
+        // Arrows
 
-        //var defaultArrow = new ArrowCreator(this);
-        //var specialArrow = new ArrowCreator(this)
-        //{
-        //    ArrowSize = 54,
-        //    TextSize = 54,
-        //    ElementSpacing = 180,
-        //    TextColorAlt = Color.cyan
-        //};
+        var defaultArrow = new ArrowCreator(this);
+        var specialArrow = new ArrowCreator(this)
+        {
+            ArrowSize = 54,
+            TextSize = 54,
+            ElementSpacing = 180,
+            TextColorAlt = Color.cyan
+        };
 
-        //string[] options = ["Option 1", "Option 2", "Option 3"];
-        //var arrow1 = defaultArrow.CreateOption("test2", ui, new Vector2(0, 0), "Test arrow", options);
-        //var arrow2 = specialArrow.CreateOption("test22", ui, new Vector2(0, 200), "Test arrow", options);
+        string[] options = [ "Option 1", "Option 2", "Option 3" ];
+        var arrow1 = defaultArrow.CreateOption("test2", ui, new Vector2(0, 0), "Test arrow", options);
+        var arrow2 = specialArrow.CreateOption("test22", ui, new Vector2(0, 200), "Test arrow", options);
 
         //// Texts
 

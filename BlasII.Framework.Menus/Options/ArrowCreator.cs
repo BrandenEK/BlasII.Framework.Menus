@@ -1,4 +1,5 @@
 ﻿using BlasII.Framework.UI;
+using Il2CppTMPro;
 using UnityEngine;
 
 namespace BlasII.Framework.Menus.Options;
@@ -42,11 +43,11 @@ public class ArrowCreator(ModMenu menu)
             Position = new Vector2(0, ArrowSize),
         }).AddText(new TextCreationOptions()
         {
-            Alignment = TextAnchor.MiddleCenter,
+            Alignment = TextAlignmentOptions.Center,
             Color = TextColor,
             FontSize = TextSize,
-            Contents = header
         });
+        _menu.OwnerMod.LocalizationHandler.AddTMProLocalizer(headerText, header);
 
         // Create option text
         var optionText = UIModder.Create(new RectCreationOptions()
@@ -56,7 +57,7 @@ public class ArrowCreator(ModMenu menu)
             Position = Vector2.zero,
         }).AddText(new TextCreationOptions()
         {
-            Alignment = TextAnchor.MiddleCenter,
+            Alignment = TextAlignmentOptions.Center,
             Color = TextColorAlt,
             FontSize = TextSize - 5,
             Contents = string.Empty
