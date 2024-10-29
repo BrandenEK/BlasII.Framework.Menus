@@ -34,26 +34,26 @@ public class IconLoader
 
     internal IconLoader(FileHandler file)
     {
-        //// Load cursor icon
-        //file.LoadDataAsSprite("cursor.png", out Sprite cursor);
-        //Cursor = cursor;
+        // Load cursor icon
+        file.LoadDataAsSprite("cursor.png", out Sprite cursor);
+        Cursor = cursor;
 
-        //// Load toggle icons
-        //file.LoadDataAsFixedSpritesheet("toggle.png", new Vector2(54, 54), out Sprite[] toggle);
-        //ToggleOff = toggle[0];
-        //ToggleOn = toggle[1];
-        //ToggleNo = toggle[2];
+        // Load toggle icons
+        file.LoadDataAsFixedSpritesheet("toggle.png", new Vector2(54, 54), out Sprite[] toggle);
+        ToggleOff = toggle[0];
+        ToggleOn = toggle[1];
+        ToggleNo = toggle[2];
 
-        //// Load arrow icons
-        //file.LoadDataAsFixedSpritesheet("arrow.png", new Vector2(54, 54), out Sprite[] arrow);
-        //ArrowLeftOn = arrow[0];
-        //ArrowRightOn = arrow[1];
-        //ArrowLeftOff = arrow[2];
-        //ArrowRightOff = arrow[3];
+        // Load arrow icons
+        file.LoadDataAsFixedSpritesheet("arrow.png", new Vector2(54, 54), out Sprite[] arrow);
+        ArrowLeftOn = arrow[0];
+        ArrowRightOn = arrow[1];
+        ArrowLeftOff = arrow[2];
+        ArrowRightOff = arrow[3];
 
-        //// Load text icons
-        //file.LoadDataAsFixedSpritesheet("text.png", new Vector2(141, 54), out Sprite[] text);
-        //TextOn = text[0];
-        //TextOff = text[1];
+        // Load text icons
+        file.LoadDataAsFixedSpritesheet("text.png", new Vector2(141, 54), out Sprite[] text);
+        TextOn = text[0];
+        TextOff = text[1];
     }
 }
