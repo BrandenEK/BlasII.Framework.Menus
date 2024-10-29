@@ -15,7 +15,7 @@ public class MenuFramework : BlasIIMod
     internal MenuFramework() : base(ModInfo.MOD_ID, ModInfo.MOD_NAME, ModInfo.MOD_AUTHOR, ModInfo.MOD_VERSION)
     {
         _mainMenuCache = new ObjectCache<MainMenuWindowLogic>(Object.FindObjectOfType<MainMenuWindowLogic>);
-        _slotsMenuCache = new ObjectCache(() => _mainMenuCache.Value.slotsMenuView.transform.parent.gameObject);
+        _slotsMenuCache = new ObjectCache<GameObject>(() => _mainMenuCache.Value.slotsMenuView.transform.parent.gameObject);
     }
 
     internal static bool AllowGameStart { get; private set; }
@@ -27,7 +27,7 @@ public class MenuFramework : BlasIIMod
 
     // Menu objects
     private readonly ObjectCache<MainMenuWindowLogic> _mainMenuCache;
-    private readonly ObjectCache _slotsMenuCache;
+    private readonly ObjectCache<GameObject> _slotsMenuCache;
 
     // Menu collections
     private MenuCollection _newGameMenus;
@@ -154,18 +154,18 @@ public class MenuFramework : BlasIIMod
     /// <summary>
     /// Creates a new empty menu UI
     /// </summary>
-    internal MenuComponent CreateBaseMenu(string title, bool isFirst, bool isLast)
+    internal MenuComponent CreateBaseMenu(string modName, bool isFirst, bool isLast)
     {
         // Duplicate slot menu
         GameObject settingsMenu = Object.Instantiate(_slotsMenuCache.Value, _slotsMenuCache.Value.transform.parent);
-        settingsMenu.name = $"Menu {title}";
+        settingsMenu.name = $"Menu {modName}";
 
         // Remove slot menu stuff
         Object.Destroy(settingsMenu.transform.Find("SlotsList").gameObject);
 
         // Set header text
         UIPixelTextWithShadow headerText = settingsMenu.transform.Find("Header").GetComponent<UIPixelTextWithShadow>();
-        headerText.SetText(title);
+        LocalizationHandler.AddPixelTextLocalizer(headerText, modName + " {0}", "title");
 
         // Change text of buttons
         var newBtn = settingsMenu.transform.Find("Buttons/Button A/New").gameObject;
@@ -204,6 +204,8 @@ public class MenuFramework : BlasIIMod
 
         provider.RegisterLoadGameMenu(new TestMenu("Load game menu", 50, false));
     }
+
+    // Remove if not needed !!!
 
     protected override void OnNewGame()
     {
