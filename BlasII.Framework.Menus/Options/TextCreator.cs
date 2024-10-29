@@ -1,4 +1,5 @@
 ﻿using BlasII.Framework.UI;
+using Il2CppTMPro;
 using UnityEngine;
 
 namespace BlasII.Framework.Menus.Options;
@@ -42,14 +43,14 @@ public class TextCreator(ModMenu menu)
             Name = "header",
             Parent = holder,
             Position = new Vector2(-ElementSpacing, 0),
-            Pivot = new Vector2(1, 0.5f)
+            Pivot = new Vector2(1, 0.5f),
         }).AddText(new TextCreationOptions()
         {
-            Alignment = TextAnchor.MiddleRight,
+            Alignment = TextAlignmentOptions.Right,
             Color = TextColor,
             FontSize = TextSize,
-            Contents = header
         });
+        _menu.OwnerMod.LocalizationHandler.AddTMProLocalizer(headerText, header);
 
         // Create value text
         var valueText = UIModder.Create(new RectCreationOptions()
@@ -60,7 +61,7 @@ public class TextCreator(ModMenu menu)
             Pivot = new Vector2(0.5f, 0.5f)
         }).AddText(new TextCreationOptions()
         {
-            Alignment = TextAnchor.MiddleCenter,
+            Alignment = TextAlignmentOptions.Center,
             Color = TextColorAlt,
             FontSize = TextSize - 5,
             Contents = string.Empty

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Il2CppTMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace BlasII.Framework.Menus.Options;
@@ -6,18 +7,19 @@ namespace BlasII.Framework.Menus.Options;
 /// <summary>
 /// An option composed of text
 /// </summary>
+[MelonLoader.RegisterTypeInIl2Cpp]
 public class TextOption : MonoBehaviour
 {
     private ModMenu _menu;
     private Image _underline;
-    private Text _text;
+    private TextMeshProUGUI _text;
 
     private bool _numeric;
     private bool _allowZero;
     private int _maxLength;
 
     private string _currentValue = string.Empty;
-    private bool _selected;
+    private bool _selected = false;
 
     /// <summary>
     /// The current string value of the option
@@ -60,7 +62,7 @@ public class TextOption : MonoBehaviour
     /// <summary>
     /// Initializes the text option
     /// </summary>
-    public void Initialize(ModMenu menu, Image underline, Text text, bool numeric, bool allowZero, int maxLength)
+    public void Initialize(ModMenu menu, Image underline, TextMeshProUGUI text, bool numeric, bool allowZero, int maxLength)
     {
         _menu = menu;
         _underline = underline;
@@ -121,7 +123,7 @@ public class TextOption : MonoBehaviour
         if (_currentValue.Length == 0) // Skip if value is empty
             return;
 
-        CurrentValue = _currentValue.Substring(0, _currentValue.Length - 1);
+        CurrentValue = _currentValue[..^1];
         _menu.OnOptionsChanged();
     }
 
