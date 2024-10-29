@@ -1,4 +1,5 @@
 ﻿using BlasII.Framework.UI;
+using Il2CppTMPro;
 using UnityEngine;
 
 namespace BlasII.Framework.Menus.Options;
@@ -39,14 +40,14 @@ public class ToggleCreator(ModMenu menu)
             Parent = holder,
             Position = new Vector2(ElementSpacing, 0),
             Pivot = new Vector2(0, 0.5f),
-            Size = new Vector2(100, BoxSize * 2)
+            Size = new Vector2(100, BoxSize * 2),
         }).AddText(new TextCreationOptions()
         {
-            Alignment = TextAnchor.MiddleLeft,
+            Alignment = TextAlignmentOptions.Left,
             Color = TextColor,
             FontSize = TextSize,
-            Contents = header
         });
+        _menu.OwnerMod.LocalizationHandler.AddTMProLocalizer(headerText, header);
 
         // Create box image
         var boxImage = UIModder.Create(new RectCreationOptions()

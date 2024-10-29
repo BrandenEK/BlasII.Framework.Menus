@@ -1,4 +1,6 @@
-﻿using BlasII.ModdingAPI;
+﻿using BlasII.Framework.Menus.Options;
+using BlasII.Framework.UI;
+using BlasII.ModdingAPI;
 using UnityEngine;
 
 namespace BlasII.Framework.Menus;
@@ -34,17 +36,17 @@ internal class TestMenu(string title, int priority, bool hasClickable) : ModMenu
         if (!hasClickable)
             return;
 
-        //// Toggles
+        // Toggles
 
-        //var defaultToggle = new ToggleCreator(this);
-        //var specialToggle = new ToggleCreator(this)
-        //{
-        //    BoxSize = 70,
-        //    TextSize = 70
-        //};
+        var defaultToggle = new ToggleCreator(this);
+        var specialToggle = new ToggleCreator(this)
+        {
+            BoxSize = 70,
+            TextSize = 70
+        };
 
-        //var toggle1 = defaultToggle.CreateOption("test1", ui, new Vector2(-500, 0), "Test toggle");
-        //var toggle2 = specialToggle.CreateOption("test11", ui, new Vector2(-500, 200), "Test toggle");
+        var toggle1 = defaultToggle.CreateOption("test1", ui, new Vector2(-300, 0), "Test toggle");
+        var toggle2 = specialToggle.CreateOption("test11", ui, new Vector2(-300, 200), "Test toggle");
 
         //// Arrows
 

@@ -6,6 +6,7 @@ namespace BlasII.Framework.Menus.Options;
 /// <summary>
 /// An option that can either be on or off
 /// </summary>
+[MelonLoader.RegisterTypeInIl2Cpp]
 public class ToggleOption : MonoBehaviour
 {
     private ModMenu _menu;
