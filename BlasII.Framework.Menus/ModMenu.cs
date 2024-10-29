@@ -67,7 +67,6 @@ public abstract class ModMenu
     public virtual void OnOptionsChanged()
     {
         AudioHelper.PlayEffectUI(AudioHelper.SfxUI.ChangeSelection);
-        //Main.MenuFramework.SoundPlayer.Play(SoundPlayer.SfxType.ChangeSelection);
     }
 
     /// <summary>

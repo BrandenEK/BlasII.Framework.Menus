@@ -62,7 +62,6 @@ internal class MenuCollection(IEnumerable<ModMenu> menus, Action onFinish, Actio
     public void ShowNextMenu()
     {
         AudioHelper.PlayEffectUI(AudioHelper.SfxUI.OpenMenu);
-        //Main.MenuFramework.SoundPlayer.Play(SoundPlayer.SfxType.EquipItem);
 
         // If there is another menu, move to it
         if (_currentMenu < _menus.Count - 1)
@@ -87,7 +86,7 @@ internal class MenuCollection(IEnumerable<ModMenu> menus, Action onFinish, Actio
     public void ShowPreviousMenu()
     {
         AudioHelper.PlayEffectUI(AudioHelper.SfxUI.CloseMenu);
-        //Main.MenuFramework.SoundPlayer.Play(SoundPlayer.SfxType.UnequipItem);
+
         HideMenu(_currentMenu);
 
         // If there is another menu, move to it
@@ -102,16 +101,5 @@ internal class MenuCollection(IEnumerable<ModMenu> menus, Action onFinish, Actio
         foreach (var menu in _menus)
             menu.OnCancel();
         onCancel();
-    }
-
-    /// <summary>
-    /// Only call the OnFinish method once NewGame or LoadGame has been called
-    /// </summary>
-    public void DelayedFinish()
-    {
-        // Might not be needed if the OnFinish needs to be before newgame is called
-
-        //foreach (var menu in _menus)
-        //    menu.OnFinish();
     }
 }

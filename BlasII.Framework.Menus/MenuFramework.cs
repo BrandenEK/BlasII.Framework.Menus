@@ -204,19 +204,5 @@ public class MenuFramework : BlasIIMod
 
         provider.RegisterLoadGameMenu(new TestMenu("Load game menu", 50, false));
     }
-
-    // Remove if not needed !!!
-
-    protected override void OnNewGame()
-    {
-        ModLog.Warn("Calling new game!");
-        _newGameMenus.DelayedFinish();
-    }
-
-    protected override void OnLoadGame()
-    {
-        ModLog.Warn("Calling load game!");
-        _loadGameMenus.DelayedFinish();
-    }
 #endif
 }
