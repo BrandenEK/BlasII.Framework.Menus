@@ -1,4 +1,4 @@
-﻿using Il2CppTMPro;
+﻿using Il2CppTGK.Game.Components.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +11,7 @@ namespace BlasII.Framework.Menus.Options;
 public class ArrowOption : MonoBehaviour
 {
     private ModMenu _menu;
-    private TextMeshProUGUI _text;
+    private UIPixelTextWithShadow _text;
     private Image _leftArrow;
     private Image _rightArrow;
 
@@ -47,7 +47,7 @@ public class ArrowOption : MonoBehaviour
     /// <summary>
     /// Initializes the arrow option
     /// </summary>
-    public void Initialize(ModMenu menu, TextMeshProUGUI optionText, Image leftArrow, Image rightArrow, string[] options)
+    public void Initialize(ModMenu menu, UIPixelTextWithShadow optionText, Image leftArrow, Image rightArrow, string[] options)
     {
         _menu = menu;
         _text = optionText;
@@ -60,7 +60,7 @@ public class ArrowOption : MonoBehaviour
 
     private void UpdateStatus()
     {
-        _text.text = _menu.OwnerMod.LocalizationHandler.Localize(_options[_currentOption]);
+        _text.SetText(_menu.OwnerMod.LocalizationHandler.Localize(_options[_currentOption]));
         _leftArrow.sprite = _currentOption == 0
             ? Main.MenuFramework.IconLoader.ArrowLeftOff
             : Main.MenuFramework.IconLoader.ArrowLeftOn;

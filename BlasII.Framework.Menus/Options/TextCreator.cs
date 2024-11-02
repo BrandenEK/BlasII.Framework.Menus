@@ -49,8 +49,8 @@ public class TextCreator(ModMenu menu)
             Alignment = TextAlignmentOptions.Right,
             Color = TextColor,
             FontSize = TextSize,
-        });
-        _menu.OwnerMod.LocalizationHandler.AddTMProLocalizer(headerText, header);
+        }).AddShadow();
+        _menu.OwnerMod.LocalizationHandler.AddPixelTextLocalizer(headerText, header);
 
         // Create value text
         var valueText = UIModder.Create(new RectCreationOptions()
@@ -65,7 +65,7 @@ public class TextCreator(ModMenu menu)
             Color = TextColorAlt,
             FontSize = TextSize - 5,
             Contents = string.Empty
-        });
+        }).AddShadow();
 
         // Create underline image
         var underline = UIModder.Create(new RectCreationOptions()

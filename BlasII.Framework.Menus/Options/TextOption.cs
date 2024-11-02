@@ -1,4 +1,4 @@
-﻿using Il2CppTMPro;
+﻿using Il2CppTGK.Game.Components.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +12,7 @@ public class TextOption : MonoBehaviour
 {
     private ModMenu _menu;
     private Image _underline;
-    private TextMeshProUGUI _text;
+    private UIPixelTextWithShadow _text;
 
     private bool _numeric;
     private bool _allowZero;
@@ -62,7 +62,7 @@ public class TextOption : MonoBehaviour
     /// <summary>
     /// Initializes the text option
     /// </summary>
-    public void Initialize(ModMenu menu, Image underline, TextMeshProUGUI text, bool numeric, bool allowZero, int maxLength)
+    public void Initialize(ModMenu menu, Image underline, UIPixelTextWithShadow text, bool numeric, bool allowZero, int maxLength)
     {
         _menu = menu;
         _underline = underline;
@@ -81,9 +81,9 @@ public class TextOption : MonoBehaviour
         _underline.sprite = _selected
             ? Main.MenuFramework.IconLoader.TextOn
             : Main.MenuFramework.IconLoader.TextOff;
-        _text.text = _currentValue.Length > 0
+        _text.SetText(_currentValue.Length > 0
             ? _currentValue
-            : _selected ? string.Empty : "---";
+            : _selected ? string.Empty : "---");
     }
 
     private void ProcessCharacter(char c)

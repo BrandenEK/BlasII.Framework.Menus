@@ -46,8 +46,8 @@ public class ToggleCreator(ModMenu menu)
             Alignment = TextAlignmentOptions.Left,
             Color = TextColor,
             FontSize = TextSize,
-        });
-        _menu.OwnerMod.LocalizationHandler.AddTMProLocalizer(headerText, header);
+        }).AddShadow();
+        _menu.OwnerMod.LocalizationHandler.AddPixelTextLocalizer(headerText, header);
 
         // Create box image
         var boxImage = UIModder.Create(new RectCreationOptions()
