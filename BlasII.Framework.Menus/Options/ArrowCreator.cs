@@ -46,8 +46,8 @@ public class ArrowCreator(ModMenu menu)
             Alignment = TextAlignmentOptions.Center,
             Color = TextColor,
             FontSize = TextSize,
-        });
-        _menu.OwnerMod.LocalizationHandler.AddTMProLocalizer(headerText, header);
+        }).AddShadow();
+        _menu.OwnerMod.LocalizationHandler.AddPixelTextLocalizer(headerText, header);
 
         // Create option text
         var optionText = UIModder.Create(new RectCreationOptions()
@@ -61,7 +61,7 @@ public class ArrowCreator(ModMenu menu)
             Color = TextColorAlt,
             FontSize = TextSize - 5,
             Contents = string.Empty
-        });
+        }).AddShadow();
 
         // Create left arrow image
         var leftArrow = UIModder.Create(new RectCreationOptions()
