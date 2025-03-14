@@ -124,7 +124,7 @@ public class TextOption : MonoBehaviour
             return;
 
         CurrentValue = _currentValue[..^1];
-        _menu.OnOptionsChanged();
+        _menu.OnOptionsChanged(name);
     }
 
     void HandleWhitespace(char c)
@@ -133,7 +133,7 @@ public class TextOption : MonoBehaviour
             return;
 
         CurrentValue += c;
-        _menu.OnOptionsChanged();
+        _menu.OnOptionsChanged(name);
     }
 
     void HandleNonNumeric(char c)
@@ -142,7 +142,7 @@ public class TextOption : MonoBehaviour
             return;
 
         CurrentValue += c;
-        _menu.OnOptionsChanged();
+        _menu.OnOptionsChanged(name);
     }
 
     void HandleZero()
@@ -151,12 +151,12 @@ public class TextOption : MonoBehaviour
             return;
 
         CurrentValue += '0';
-        _menu.OnOptionsChanged();
+        _menu.OnOptionsChanged(name);
     }
 
     void HandleNumber(char c)
     {
         CurrentValue += c;
-        _menu.OnOptionsChanged();
+        _menu.OnOptionsChanged(name);
     }
 }

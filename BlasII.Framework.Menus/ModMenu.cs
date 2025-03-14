@@ -64,7 +64,7 @@ public abstract class ModMenu
     /// Called when one of this menu's options changes its value.
     /// By default it plays a sound effect
     /// </summary>
-    public virtual void OnOptionsChanged()
+    public virtual void OnOptionsChanged(string option)
     {
         AudioHelper.PlayEffectUI(AudioHelper.SfxUI.ChangeSelection);
     }
