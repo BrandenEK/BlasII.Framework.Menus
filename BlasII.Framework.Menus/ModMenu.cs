@@ -58,15 +58,6 @@ public abstract class ModMenu
         {
             Main.MenuFramework.ShowPreviousMenu();
         }
-
-        //if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        //{
-        //    Main.MenuFramework.ShowNextMenu();
-        //}
-        //else if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    Main.MenuFramework.ShowPreviousMenu();
-        //}
     }
 
     /// <summary>

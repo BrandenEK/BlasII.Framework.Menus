@@ -30,6 +30,8 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     public IconLoader IconLoader { get; private set; }
 
+    private InputBlocker _inputBlocker;
+
     // Menu objects
     private readonly ObjectCache<MainMenuWindowLogic> _mainMenuCache;
     private readonly ObjectCache<GameObject> _slotsMenuCache;
@@ -56,6 +58,7 @@ public class MenuFramework : BlasIIMod
     protected override void OnInitialize()
     {
         IconLoader = new IconLoader(FileHandler);
+        _inputBlocker = new InputBlocker();
 
         LocalizationHandler.RegisterDefaultLanguage("en");
     }
@@ -88,18 +91,6 @@ public class MenuFramework : BlasIIMod
 
         if (IsMenuActive)
             CurrentMenuCollection.CurrentMenu.OnUpdate();
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.V))
-        {
-            //ModLog.Error(_mainMenuCache.Value.transform.DisplayHierarchy(10, true));
-            //ModLog.Info(_mainMenuCache.Value.name + ": " + _mainMenuCache.Value.gameObject.activeSelf);
-            //ModLog.Info(_slotsMenuCache.Value.name + ": " + _slotsMenuCache.Value.gameObject.activeSelf);
-            //for (int i = 0; i < _mainMenuCache.Value.transform.childCount; i++)
-            //{
-            //    Transform t = _mainMenuCache.Value.transform.GetChild(i);
-            //    ModLog.Info(t.name + ": " + t.gameObject.activeSelf);
-            //}
-        }
     }
 
     /// <summary>
@@ -141,28 +132,8 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     private void StartMenu()
     {
-
-        CoreCache.Input.ClearAllInputBlocks();
-        //CoreCache.Input.SetInputBlock(true, false);
-
-        IEnumerable<InputData> inputs = Resources.FindObjectsOfTypeAll<InputData>().OrderBy(x => x.mask);
-        foreach (var input in inputs)
-        {
-            ModLog.Info(input.name + ": " + input.inputType + " - " + System.Convert.ToString(input.mask, 16));
-
-            //if (input.name != "UI Confirm" && input.name != "UI Cancel")
-            //if (input.name == "Jump")
-
-            if (input.mask != 8192 && input.mask != 524288)
-                CoreCache.Input.BlockInputAction(input);
-        }
-
-        // 8192 = UI Confirm
-        // 524288 = UI Cancel
-
-        //CoreCache.Input.ClearAllInputBlocks();
-        //CoreCache.Input.UnblockInputAction(inputs.First(x => x.name == "UI Confirm"));
-        //CoreCache.Input.UnblockInputAction(inputs.First(x => x.name == "UI Cancel"));
+        _inputBlocker.BlockOtherInput();
+        
         _slotsMenuCache.Value.SetActive(false);
         CurrentMenuCollection.StartMenu();
     }
@@ -172,6 +143,8 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     private void OnFinishMenu()
     {
+        _inputBlocker.UnblockOtherInput();
+
         AllowGameStart = true;
 
         if (_isContinue)
@@ -192,12 +165,7 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     private void OnCancelMenu()
     {
-        IEnumerable<InputData> inputs = Resources.FindObjectsOfTypeAll<InputData>().OrderBy(x => x.mask);
-        foreach (var input in inputs)
-        {
-            if (input.mask != 8192 && input.mask != 524288)
-                CoreCache.Input.UnblockInputAction(input);
-        }
+        _inputBlocker.UnblockOtherInput();
 
         _mainMenuCache.Value.OpenSlotMenu();
         _mainMenuCache.Value.slotsList.SelectElement(_currentSlot);
