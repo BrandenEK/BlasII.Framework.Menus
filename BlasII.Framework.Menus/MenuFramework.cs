@@ -5,6 +5,11 @@ using Il2CppTGK.Game;
 using Il2CppTGK.Game.Components.UI;
 using UnityEngine;
 
+using System.Text;
+using Il2CppTGK.InputSystem;
+using System.Linq;
+using System.Collections.Generic;
+
 namespace BlasII.Framework.Menus;
 
 /// <summary>
@@ -83,6 +88,18 @@ public class MenuFramework : BlasIIMod
 
         if (IsMenuActive)
             CurrentMenuCollection.CurrentMenu.OnUpdate();
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.V))
+        {
+            //ModLog.Error(_mainMenuCache.Value.transform.DisplayHierarchy(10, true));
+            //ModLog.Info(_mainMenuCache.Value.name + ": " + _mainMenuCache.Value.gameObject.activeSelf);
+            //ModLog.Info(_slotsMenuCache.Value.name + ": " + _slotsMenuCache.Value.gameObject.activeSelf);
+            //for (int i = 0; i < _mainMenuCache.Value.transform.childCount; i++)
+            //{
+            //    Transform t = _mainMenuCache.Value.transform.GetChild(i);
+            //    ModLog.Info(t.name + ": " + t.gameObject.activeSelf);
+            //}
+        }
     }
 
     /// <summary>
@@ -124,8 +141,29 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     private void StartMenu()
     {
-        _slotsMenuCache.Value.SetActive(false);
+
         CoreCache.Input.ClearAllInputBlocks();
+        //CoreCache.Input.SetInputBlock(true, false);
+
+        IEnumerable<InputData> inputs = Resources.FindObjectsOfTypeAll<InputData>().OrderBy(x => x.mask);
+        foreach (var input in inputs)
+        {
+            ModLog.Info(input.name + ": " + input.inputType + " - " + System.Convert.ToString(input.mask, 16));
+
+            //if (input.name != "UI Confirm" && input.name != "UI Cancel")
+            //if (input.name == "Jump")
+
+            if (input.mask != 8192 && input.mask != 524288)
+                CoreCache.Input.BlockInputAction(input);
+        }
+
+        // 8192 = UI Confirm
+        // 524288 = UI Cancel
+
+        //CoreCache.Input.ClearAllInputBlocks();
+        //CoreCache.Input.UnblockInputAction(inputs.First(x => x.name == "UI Confirm"));
+        //CoreCache.Input.UnblockInputAction(inputs.First(x => x.name == "UI Cancel"));
+        _slotsMenuCache.Value.SetActive(false);
         CurrentMenuCollection.StartMenu();
     }
 
@@ -135,10 +173,17 @@ public class MenuFramework : BlasIIMod
     private void OnFinishMenu()
     {
         AllowGameStart = true;
+
         if (_isContinue)
+        {
+            //CoreCache.SaveData.SaveGame(_currentSlot);
             _mainMenuCache.Value.LoadGame(_currentSlot);
+        }
         else
+        {
             _mainMenuCache.Value.NewGame(_currentSlot);
+        }
+
         AllowGameStart = false;
     }
 
@@ -147,6 +192,13 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     private void OnCancelMenu()
     {
+        IEnumerable<InputData> inputs = Resources.FindObjectsOfTypeAll<InputData>().OrderBy(x => x.mask);
+        foreach (var input in inputs)
+        {
+            if (input.mask != 8192 && input.mask != 524288)
+                CoreCache.Input.UnblockInputAction(input);
+        }
+
         _mainMenuCache.Value.OpenSlotMenu();
         _mainMenuCache.Value.slotsList.SelectElement(_currentSlot);
     }
@@ -205,4 +257,42 @@ public class MenuFramework : BlasIIMod
         provider.RegisterLoadGameMenu(new TestMenu("Load game menu", 50, false));
     }
 #endif
+}
+
+internal static class InfoExtensions
+{
+    // Recursive method that returns the entire hierarchy of an object
+    public static string DisplayHierarchy(this Transform transform, int maxLevel, bool includeComponents)
+    {
+        return transform.DisplayHierarchy_INTERNAL(new StringBuilder(), 0, maxLevel, includeComponents).ToString();
+    }
+
+    private static StringBuilder DisplayHierarchy_INTERNAL(this Transform transform, StringBuilder currentHierarchy, int currentLevel, int maxLevel, bool includeComponents)
+    {
+        // Indent
+        for (int i = 0; i < currentLevel; i++)
+            currentHierarchy.Append('\t');
+
+        // Add this object
+        currentHierarchy.Append(transform.name);
+
+        // Add components
+        if (includeComponents)
+        {
+            currentHierarchy.Append(" - ");
+            foreach (Component c in transform.GetComponents<Component>())
+                currentHierarchy.Append(c.GetIl2CppType().FullName + ", ");
+        }
+        currentHierarchy.AppendLine();
+
+        // Add children
+        if (currentLevel < maxLevel)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+                currentHierarchy = transform.GetChild(i).DisplayHierarchy_INTERNAL(currentHierarchy, currentLevel + 1, maxLevel, includeComponents);
+        }
+
+        // Return output
+        return currentHierarchy;
+    }
 }
