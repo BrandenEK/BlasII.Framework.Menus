@@ -25,6 +25,8 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     public IconLoader IconLoader { get; private set; }
 
+    private InputBlocker _inputBlocker;
+
     // Menu objects
     private readonly ObjectCache<MainMenuWindowLogic> _mainMenuCache;
     private readonly ObjectCache<GameObject> _slotsMenuCache;
@@ -51,6 +53,7 @@ public class MenuFramework : BlasIIMod
     protected override void OnInitialize()
     {
         IconLoader = new IconLoader(FileHandler);
+        _inputBlocker = new InputBlocker();
 
         LocalizationHandler.RegisterDefaultLanguage("en");
     }
@@ -124,8 +127,9 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     private void StartMenu()
     {
+        _inputBlocker.BlockOtherInput();
+        
         _slotsMenuCache.Value.SetActive(false);
-        CoreCache.Input.ClearAllInputBlocks();
         CurrentMenuCollection.StartMenu();
     }
 
@@ -134,11 +138,20 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     private void OnFinishMenu()
     {
+        _inputBlocker.UnblockOtherInput();
+
         AllowGameStart = true;
+
         if (_isContinue)
+        {
+            //CoreCache.SaveData.SaveGame(_currentSlot);
             _mainMenuCache.Value.LoadGame(_currentSlot);
+        }
         else
+        {
             _mainMenuCache.Value.NewGame(_currentSlot);
+        }
+
         AllowGameStart = false;
     }
 
@@ -147,6 +160,8 @@ public class MenuFramework : BlasIIMod
     /// </summary>
     private void OnCancelMenu()
     {
+        _inputBlocker.UnblockOtherInput();
+
         _mainMenuCache.Value.OpenSlotMenu();
         _mainMenuCache.Value.slotsList.SelectElement(_currentSlot);
     }

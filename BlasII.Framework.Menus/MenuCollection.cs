@@ -77,6 +77,7 @@ internal class MenuCollection(IEnumerable<ModMenu> menus, Action onFinish, Actio
         _currentMenu = -1;
         foreach (var menu in _menus)
             menu.OnFinish();
+
         onFinish();
     }
 
@@ -100,6 +101,7 @@ internal class MenuCollection(IEnumerable<ModMenu> menus, Action onFinish, Actio
         _currentMenu = -1;
         foreach (var menu in _menus)
             menu.OnCancel();
+
         onCancel();
     }
 }
