@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using BlasII.ModdingAPI;
+using System.Linq;
+using UnityEngine;
 
 namespace BlasII.Framework.Menus.Extensions;
 
@@ -6,19 +8,24 @@ internal static class RectExtensions
 {
     public static bool OverlapsPoint(this RectTransform rect, Vector2 point)
     {
-        float xScale = (float)Screen.width / 1920;
-        var scaling = new Vector3(xScale, xScale, (Screen.height - 1080 * xScale) * 0.5f);
+        point = new Vector2(point.x * 1920 / Screen.width, point.y * 1080 / Screen.height);
+        return RectTransformUtility.RectangleContainsScreenPoint(rect, point, UICamera);
+    }
 
-        var position = Camera.main.WorldToScreenPoint(rect.position);
-        position = new Vector2(position.x * scaling.x, position.y * scaling.y + scaling.z);
-        
-        var size = new Vector2(rect.rect.width * scaling.x, rect.rect.height * scaling.y);
+    private static Camera x_camera;
+    private static Camera UICamera
+    {
+        get
+        {
+            if (x_camera != null)
+                return x_camera;
 
-        float leftBound = position.x + size.x * -rect.pivot.x;
-        float rightBound = position.x + size.x * (1 - rect.pivot.x);
-        float lowerBound = position.y + size.y * -rect.pivot.y;
-        float upperBound = position.y + size.y * (1 - rect.pivot.y);
+            x_camera = Object.FindObjectsOfType<Camera>().FirstOrDefault(x => x.name == "UI Pixel Perfect Camera");
 
-        return point.x >= leftBound && point.x <= rightBound && point.y >= lowerBound && point.y <= upperBound;
+            if (x_camera == null)
+                ModLog.Error("Failed to cache UI camera");
+
+            return x_camera;
+        }
     }
 }
